@@ -1,0 +1,735 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--kg:#53FC18;--kg-dark:#3dd10f;--kg-dim:rgba(83,252,24,0.12);--kg-dim2:rgba(83,252,24,0.22);
+--kb:#0f0f0f;--ks1:#1a1a1a;--ks2:#242424;--ks3:#2e2e2e;--ks4:#3a3a3a;
+--kborder:rgba(255,255,255,0.08);--kborder2:rgba(255,255,255,0.16);--kborder-g:rgba(83,252,24,0.3);
+--kt:#f0f0f0;--ktm:#888;--ktd:#555;
+--kr:#ff4444;--ka:#f59e0b;--kbl:#3b82f6;
+}
+body{background:var(--kb);color:var(--kt);font-family:'Barlow','Segoe UI',sans-serif}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* GLOBAL HEADER */
+.g-header{background:var(--ks1);border-bottom:1px solid var(--kborder);padding:12px 1.5rem;display:flex;align-items:center;gap:12px}
+.logo-mk{width:32px;height:32px;background:var(--kg);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mk svg{width:20px;height:20px}
+.logo-t{font-size:19px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--kt)}
+.ds-pill{background:var(--kg-dim);color:var(--kg);font-size:10px;font-weight:700;padding:3px 9px;border-radius:4px;border:1px solid var(--kborder-g);text-transform:uppercase;letter-spacing:.08em}
+.ver-pill{background:var(--ks3);color:var(--ktm);font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px}
+
+/* NAV */
+.g-nav{background:var(--ks1);border-bottom:1px solid var(--kborder);display:flex;padding:0 1.5rem;position:sticky;top:0;z-index:100;overflow-x:auto}
+.g-nav::-webkit-scrollbar{height:2px}
+.g-nav::-webkit-scrollbar-track{background:transparent}
+.g-nav::-webkit-scrollbar-thumb{background:var(--kborder2)}
+.nt{padding:12px 14px;font-size:11px;font-weight:700;color:var(--ktm);cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;user-select:none;transition:color .15s}
+.nt:hover{color:var(--kt)}
+.nt.on{color:var(--kg);border-bottom-color:var(--kg)}
+.nt-phase{font-size:9px;color:var(--ktd);display:block;letter-spacing:.06em;margin-bottom:1px;text-transform:uppercase}
+
+/* SECTIONS */
+.sec{display:none;padding:1.5rem}
+.sec.on{display:block}
+.sh{font-size:9px;font-weight:700;color:var(--kg);text-transform:uppercase;letter-spacing:.14em;margin-bottom:3px}
+.st{font-size:21px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--kt);margin-bottom:3px}
+.ss{font-size:13px;color:var(--ktm);margin-bottom:1.75rem;line-height:1.5}
+.ch{font-size:10px;font-weight:700;color:var(--ktd);text-transform:uppercase;letter-spacing:.1em;margin:1.5rem 0 .75rem}
+.ch:first-of-type{margin-top:0}
+.div{height:1px;background:var(--kborder);margin:1.75rem 0}
+
+/* ATOMS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Barlow',sans-serif;letter-spacing:.02em;transition:all .15s}
+.bp{background:var(--kg);color:#000}
+.bs{background:var(--ks3);color:var(--kt);border:1px solid var(--kborder)}
+.bg{background:transparent;color:var(--ktm);border:1px solid var(--kborder)}
+.bd{background:var(--kr);color:#fff}
+.b-sm{padding:5px 10px;font-size:11px}
+.b-lg{padding:11px 22px;font-size:15px}
+
+.badge{display:inline-block;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.bl{background:var(--kr);color:#fff}
+.bsuc{background:var(--kg-dim);color:var(--kg);border:1px solid var(--kborder-g)}
+.bmut{background:var(--ks3);color:var(--ktm)}
+.bsub{background:rgba(59,130,246,.15);color:#60a5fa}
+
+.avatar{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#000;flex-shrink:0}
+.av-on{outline:2px solid var(--kg);outline-offset:2px}
+
+.input-b{background:var(--ks2);border:1px solid var(--kborder);border-radius:6px;padding:9px 12px;font-size:13px;color:var(--kt);font-family:'Barlow',sans-serif;width:100%;outline:none;transition:border-color .15s}
+.inp-focus{border-color:var(--kg);box-shadow:0 0 0 3px rgba(83,252,24,.15)}
+.inp-err{border-color:var(--kr);background:rgba(255,68,68,.06)}
+.inp-dis{opacity:.45;cursor:not-allowed;background:var(--ks1)}
+
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--ks3);border:1px solid var(--kborder);border-radius:20px;font-size:11px;color:var(--ktm)}
+.cdot{width:6px;height:6px;border-radius:50%;background:var(--kg);flex-shrink:0}
+
+/* GRIDS */
+.atom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:1.5rem}
+.atom-card{background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;padding:1rem;display:flex;flex-direction:column;gap:10px}
+.atom-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ktm)}
+.atom-prev{min-height:40px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+
+.comp-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem}
+.state-card{background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;padding:1rem;display:flex;flex-direction:column;gap:10px}
+.state-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ktm)}
+.state-nm{font-size:10px;font-weight:600;color:var(--ktd);text-transform:uppercase;letter-spacing:.06em;border-top:1px solid var(--kborder);padding-top:8px}
+.spec-box{background:var(--ks2);border:1px solid var(--kborder);border-radius:6px;padding:8px 10px}
+.sl{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:10px}
+.sk{color:var(--ktm)}
+.sv{color:var(--kt);font-weight:600;font-family:monospace}
+
+/* TOKEN VISUALS */
+.token-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem}
+.swatch{border-radius:8px;overflow:hidden;border:1px solid var(--kborder)}
+.sw-block{height:48px}
+.sw-info{background:var(--ks2);padding:7px 10px}
+.sw-name{font-size:11px;font-weight:600;color:var(--kt);margin-bottom:1px}
+.sw-hex{font-size:10px;color:var(--ktm);font-family:monospace}
+
+.spacing-grid{display:flex;flex-direction:column;gap:7px}
+.spr{display:flex;align-items:center;gap:12px}
+.sp-lbl{font-size:11px;font-weight:600;color:var(--kg);min-width:36px}
+.sp-bar{flex:1;height:22px;background:var(--ks2);border-radius:4px;overflow:hidden}
+.sp-fill{height:100%;background:var(--kg-dim);border-right:2px solid var(--kg)}
+.sp-desc{font-size:11px;color:var(--ktm);min-width:130px}
+
+.grid-doc{background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;padding:1.25rem}
+.gd-title{font-size:13px;font-weight:700;color:var(--kt);margin-bottom:4px}
+.gd-spec{font-size:11px;color:var(--ktm);line-height:1.7}
+.gd-vis{display:grid;gap:6px;margin:10px 0}
+.gc{background:var(--kg-dim);border:1px solid var(--kborder-g);border-radius:3px;height:28px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--kg);font-weight:700}
+
+/* MOLECULES */
+.mol-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:1.5rem}
+.sc{background:var(--ks1);border:1px solid var(--kborder);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.sc:hover{border-color:var(--kborder-g)}
+.sc-thumb{aspect-ratio:16/9;background:var(--ks2);position:relative;display:flex;align-items:center;justify-content:center}
+.sc-tbg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.15}
+.sc-live{position:absolute;top:6px;left:6px}
+.sc-vw{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.75);padding:2px 6px;border-radius:3px;font-size:10px;color:#fff;font-weight:600;display:flex;align-items:center;gap:4px}
+.vdot{width:5px;height:5px;border-radius:50%;background:var(--kr)}
+.sc-info{padding:8px 10px;display:flex;gap:8px}
+.sc-meta{flex:1;overflow:hidden}
+.sc-title{font-size:12px;font-weight:600;color:var(--kt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.sc-ch{font-size:10px;color:var(--ktm)}
+.sc-cat{font-size:10px;color:var(--ktm);margin-top:3px}
+
+.search-mol{background:var(--ks1);border:1px solid var(--kborder);border-radius:8px;padding:1rem;margin-bottom:1rem}
+.search-row{display:flex;gap:8px}
+.search-iw{flex:1;display:flex;align-items:center;background:var(--ks2);border:1px solid var(--kborder);border-radius:6px;padding:0 10px;gap:7px}
+.search-inp{background:none;border:none;outline:none;font-size:13px;color:var(--kt);flex:1;padding:9px 0;font-family:'Barlow',sans-serif}
+.search-inp::placeholder{color:var(--ktd)}
+
+.ch-row-mol{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--ks1);border:1px solid var(--kborder);border-radius:8px;margin-bottom:6px}
+.ch-meta{flex:1}
+.ch-name-t{font-size:13px;font-weight:600;color:var(--kt)}
+.ch-cat-t{font-size:11px;color:var(--ktm);margin-top:1px}
+
+.cmsg{display:flex;flex-direction:column;gap:2px;padding:4px 0}
+.cmsg-h{display:flex;align-items:center;gap:5px}
+.cmsg-u{font-size:12px;font-weight:700;color:var(--kg)}
+.cmsg-mod{color:var(--ka)}
+.cmsg-t{font-size:10px;color:var(--ktd)}
+.cmsg-b{font-size:12px;color:var(--kt);line-height:1.45}
+
+/* ORGANISMS */
+.nav-org{background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;overflow:hidden;margin-bottom:1rem}
+.nav-top{display:flex;align-items:center;gap:10px;padding:0 14px;height:52px;border-bottom:1px solid var(--kborder)}
+.nav-lnks{display:flex;gap:2px}
+.nav-lnk{padding:6px 10px;font-size:12px;color:var(--ktm);border-radius:5px;font-weight:600;cursor:pointer}
+.nav-lnk.act{color:var(--kg);background:var(--kg-dim)}
+.nav-sp{flex:1}
+.nav-sinp{display:flex;align-items:center;background:var(--ks2);border:1px solid var(--kborder);border-radius:6px;padding:0 9px;gap:6px;height:30px;max-width:200px;flex:1}
+.nav-field{background:none;border:none;outline:none;font-size:12px;color:var(--kt);width:100%;font-family:'Barlow',sans-serif}
+.nav-field::placeholder{color:var(--ktd)}
+
+.player-org{background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;overflow:hidden;margin-bottom:1rem}
+.pl-screen{aspect-ratio:16/9;background:#000;position:relative;display:flex;align-items:center;justify-content:center}
+.pl-content{display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.2}
+.pl-ctrl{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);padding:16px 12px 10px;display:flex;align-items:center;gap:10px}
+.prog{flex:1;height:3px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
+.prog-f{height:100%;background:var(--kg);width:35%;border-radius:3px}
+.cb{background:none;border:none;cursor:pointer;padding:3px;color:#fff;font-size:16px;line-height:1}
+.pl-info{padding:12px 14px;display:flex;gap:10px;border-bottom:1px solid var(--kborder)}
+.pl-meta{flex:1}
+.pl-title{font-size:14px;font-weight:700;color:var(--kt);margin-bottom:3px}
+.pl-ch{font-size:12px;color:var(--ktm);margin-bottom:7px}
+.pl-act{display:flex;gap:6px;flex-wrap:wrap}
+
+.chat-org{background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;overflow:hidden}
+.chat-head{padding:10px 14px;border-bottom:1px solid var(--kborder);display:flex;align-items:center;justify-content:space-between}
+.chat-tt{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--kt)}
+.chat-cnt{font-size:11px;color:var(--ktm)}
+.chat-feed{padding:10px 14px;display:flex;flex-direction:column;gap:4px;min-height:180px}
+.chat-in{padding:10px 14px;border-top:1px solid var(--kborder);display:flex;gap:6px}
+.chat-field{flex:1;background:var(--ks2);border:1px solid var(--kborder);border-radius:5px;padding:7px 9px;font-size:12px;color:var(--kt);outline:none;font-family:'Barlow',sans-serif}
+
+/* SCREENS */
+.screen{background:var(--kb);border:1px solid var(--kborder);border-radius:12px;overflow:hidden}
+.snav{background:var(--ks1);border-bottom:1px solid var(--kborder);display:flex;align-items:center;gap:10px;padding:0 14px;height:50px}
+.snav-lks{display:flex;gap:2px}
+.snav-lk{padding:5px 9px;font-size:11px;color:var(--ktm);border-radius:5px;font-weight:600;cursor:pointer}
+.snav-lk.act{color:var(--kg);background:var(--kg-dim)}
+.snav-sp{flex:1}
+.snav-si{display:flex;align-items:center;background:var(--ks2);border:1px solid var(--kborder);border-radius:6px;padding:0 9px;gap:6px;height:30px;max-width:200px;flex:1}
+.snav-if{background:none;border:none;outline:none;font-size:11px;color:var(--kt);width:100%;font-family:'Barlow',sans-serif}
+.snav-if::placeholder{color:var(--ktd)}
+
+.sidebar{width:190px;flex-shrink:0;background:var(--ks1);border-right:1px solid var(--kborder);padding:10px 0}
+.sb-sec{padding:9px 13px 3px;font-size:9px;font-weight:700;color:var(--ktd);text-transform:uppercase;letter-spacing:.1em}
+.sb-it{display:flex;align-items:center;gap:9px;padding:7px 13px;cursor:pointer}
+.sb-it:hover{background:var(--ks2)}
+.sb-it.act{background:var(--kg-dim);border-left:2px solid var(--kg)}
+.sb-ic{font-size:15px;color:var(--ktm)}
+.sb-it.act .sb-ic{color:var(--kg)}
+.sb-tx{font-size:11px;font-weight:600;color:var(--ktm)}
+.sb-it.act .sb-tx{color:var(--kg)}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--kr);margin-left:auto;flex-shrink:0}
+.sb-cr{display:flex;align-items:center;gap:7px;padding:5px 13px;cursor:pointer}
+.sb-cr:hover{background:var(--ks2)}
+.sb-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+
+.hero-strip{background:var(--ks1);padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--kborder)}
+.hero-ht{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--kg);margin-bottom:2px}
+.hero-hb{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:var(--kt)}
+.hero-hm{font-size:11px;color:var(--ktm);margin-top:1px}
+
+.cat-bar{background:var(--ks1);border-bottom:1px solid var(--kborder);padding:7px 13px;display:flex;gap:5px;flex-wrap:wrap}
+.cat-pill{padding:4px 10px;background:var(--ks2);border:1px solid var(--kborder);border-radius:20px;font-size:11px;color:var(--ktm);cursor:pointer;font-weight:600}
+.cat-pill.act{background:var(--kg-dim);border-color:var(--kborder-g);color:var(--kg)}
+
+.sec-row{padding:11px 13px 3px;display:flex;align-items:center;justify-content:space-between}
+.sec-rt{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--kt)}
+.see-all{font-size:11px;color:var(--kg);font-weight:600;cursor:pointer}
+
+.stream-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:8px;padding:8px 13px}
+
+.page-lay{display:flex}
+.page-main{flex:1;display:flex;flex-direction:column}
+
+.pl-wrap{flex:1;display:flex;flex-direction:column}
+
+.tabs-bar{display:flex;background:var(--ks1);border-bottom:1px solid var(--kborder);padding:0 13px}
+.tab{padding:10px 12px;font-size:11px;font-weight:600;color:var(--ktm);cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;letter-spacing:.05em}
+.tab.act{color:var(--kg);border-bottom-color:var(--kg)}
+
+.ch-page-header{background:var(--ks1);border-bottom:1px solid var(--kborder);padding:12px 13px;display:flex;gap:12px;align-items:flex-start}
+.ch-cover{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.ch-nm{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--kt);margin-bottom:3px}
+.ch-ct{font-size:11px;color:var(--ktm);margin-bottom:7px}
+.ch-stats{display:flex;gap:14px;margin-bottom:8px}
+.stat{display:flex;flex-direction:column;gap:1px}
+.stat-v{font-size:14px;font-weight:800;color:var(--kt)}
+.stat-l{font-size:9px;color:var(--ktm);text-transform:uppercase;letter-spacing:.06em}
+.ch-act{display:flex;gap:5px;flex-wrap:wrap}
+
+.about-sec{padding:10px 13px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.about-card{background:var(--ks1);border:1px solid var(--kborder);border-radius:8px;padding:10px}
+.about-card-t{font-size:10px;font-weight:700;color:var(--kg);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.about-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px;border-bottom:1px solid var(--kborder)}
+.about-row:last-child{border:none}
+.ak{color:var(--ktm)}
+.av{color:var(--kt);font-weight:600}
+
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.tier{background:var(--ks2);border:1px solid var(--kborder);border-radius:7px;padding:10px;text-align:center;cursor:pointer;transition:border-color .15s}
+.tier:hover{border-color:var(--kborder-g)}
+.tier.feat{border:2px solid var(--kg)}
+.tier-p{font-size:16px;font-weight:800;color:var(--kg);margin-bottom:2px}
+.tier-n{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ktm);margin-bottom:6px}
+.tier-f{font-size:10px;color:var(--ktm);line-height:1.5}
+
+.chat-panel{width:260px;flex-shrink:0;border-left:1px solid var(--kborder);display:flex;flex-direction:column}
+.cp-head{padding:9px 12px;border-bottom:1px solid var(--kborder);display:flex;align-items:center;justify-content:space-between}
+.cp-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--kt)}
+.cp-cnt{font-size:11px;color:var(--ktm)}
+.cp-feed{flex:1;padding:9px 12px;display:flex;flex-direction:column;gap:5px;min-height:220px}
+.cp-in{padding:9px 12px;border-top:1px solid var(--kborder);display:flex;gap:6px}
+.cp-f{flex:1;background:var(--ks2);border:1px solid var(--kborder);border-radius:5px;padding:7px 9px;font-size:11px;color:var(--kt);outline:none;font-family:'Barlow',sans-serif}
+
+.type-row{display:flex;align-items:baseline;gap:1.5rem;padding:.85rem 0;border-bottom:1px solid var(--kborder)}
+.type-meta{min-width:130px;flex-shrink:0}
+.type-lbl{font-size:10px;font-weight:700;color:var(--kg);text-transform:uppercase;letter-spacing:.08em}
+.type-spec{font-size:10px;color:var(--ktd);margin-top:3px;line-height:1.6}
+</style>
+
+<div>
+<h2 class="sr-only">Kick Design System completo — Fases 1 a 4: tokens, tipografía, grillas, átomos, moléculas, organismos, estados de componentes y dos pantallas funcionales</h2>
+
+<div class="g-header">
+  <div class="logo-mk"><svg viewBox="0 0 24 24" fill="#000"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div>
+  <span class="logo-t">Kick</span>
+  <span class="ds-pill">Design System</span>
+  <span class="ver-pill">v1.0 — Completo</span>
+</div>
+
+<div class="g-nav" role="tablist">
+  <div class="nt on" onclick="sw('tokens')" role="tab"><span class="nt-phase">Fase 1</span>Tokens</div>
+  <div class="nt" onclick="sw('tipo')" role="tab"><span class="nt-phase">Fase 1</span>Tipografía</div>
+  <div class="nt" onclick="sw('grillas')" role="tab"><span class="nt-phase">Fase 1</span>Grillas</div>
+  <div class="nt" onclick="sw('atomos')" role="tab"><span class="nt-phase">Fase 2</span>Átomos</div>
+  <div class="nt" onclick="sw('moleculas')" role="tab"><span class="nt-phase">Fase 2</span>Moléculas</div>
+  <div class="nt" onclick="sw('organismos')" role="tab"><span class="nt-phase">Fase 2</span>Organismos</div>
+  <div class="nt" onclick="sw('estados')" role="tab"><span class="nt-phase">Fase 3</span>Estados</div>
+  <div class="nt" onclick="sw('home')" role="tab"><span class="nt-phase">Fase 4</span>Home</div>
+  <div class="nt" onclick="sw('canal')" role="tab"><span class="nt-phase">Fase 4</span>Canal</div>
+</div>
+
+<!-- TOKENS -->
+<div class="sec on" id="s-tokens">
+  <div class="sh">Fase 1 — Fundamentos Visuales</div>
+  <div class="st">Paleta de Colores</div>
+  <div class="ss">Colores primarios, secundarios, estados semánticos y neutros del sistema.</div>
+
+  <div class="ch">Primarios</div>
+  <div class="token-grid">
+    <div class="swatch"><div class="sw-block" style="background:#53FC18"></div><div class="sw-info"><div class="sw-name">Kick Green</div><div class="sw-hex">#53FC18 · brand-500</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#3dd10f"></div><div class="sw-info"><div class="sw-name">Green Dark</div><div class="sw-hex">#3DD10F · brand-600</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:rgba(83,252,24,.15);border:1px solid rgba(83,252,24,.2)"></div><div class="sw-info"><div class="sw-name">Green Dim</div><div class="sw-hex">rgba(83,252,24,.15)</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#0f0f0f"></div><div class="sw-info"><div class="sw-name">Kick Black</div><div class="sw-hex">#0F0F0F · bg-base</div></div></div>
+  </div>
+
+  <div class="ch">Superficies</div>
+  <div class="token-grid">
+    <div class="swatch"><div class="sw-block" style="background:#1a1a1a"></div><div class="sw-info"><div class="sw-name">Surface 1</div><div class="sw-hex">#1A1A1A</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#242424"></div><div class="sw-info"><div class="sw-name">Surface 2</div><div class="sw-hex">#242424</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#2e2e2e"></div><div class="sw-info"><div class="sw-name">Surface 3</div><div class="sw-hex">#2E2E2E</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#3a3a3a"></div><div class="sw-info"><div class="sw-name">Surface 4</div><div class="sw-hex">#3A3A3A</div></div></div>
+  </div>
+
+  <div class="ch">Estados Semánticos</div>
+  <div class="token-grid">
+    <div class="swatch"><div class="sw-block" style="background:#ff4444"></div><div class="sw-info"><div class="sw-name">Error / Live</div><div class="sw-hex">#FF4444 · red-500</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#53FC18"></div><div class="sw-info"><div class="sw-name">Éxito</div><div class="sw-hex">#53FC18 · green-500</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#f59e0b"></div><div class="sw-info"><div class="sw-name">Advertencia</div><div class="sw-hex">#F59E0B · amber-500</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#3b82f6"></div><div class="sw-info"><div class="sw-name">Info / Sub</div><div class="sw-hex">#3B82F6 · blue-500</div></div></div>
+  </div>
+
+  <div class="ch">Neutros</div>
+  <div class="token-grid">
+    <div class="swatch"><div class="sw-block" style="background:#f0f0f0"></div><div class="sw-info"><div class="sw-name">Text Primary</div><div class="sw-hex">#F0F0F0 · neutral-50</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#888"></div><div class="sw-info"><div class="sw-name">Text Muted</div><div class="sw-hex">#888888 · neutral-400</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:#555"></div><div class="sw-info"><div class="sw-name">Text Dim</div><div class="sw-hex">#555555 · neutral-600</div></div></div>
+    <div class="swatch"><div class="sw-block" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)"></div><div class="sw-info"><div class="sw-name">Border Default</div><div class="sw-hex">rgba(255,255,255,.08)</div></div></div>
+  </div>
+</div>
+
+<!-- TIPOGRAFÍA -->
+<div class="sec" id="s-tipo">
+  <div class="sh">Fase 1 — Fundamentos Visuales</div>
+  <div class="st">Escala Tipográfica</div>
+  <div class="ss">Barlow Condensed para títulos y display — Barlow para interfaz y cuerpo.</div>
+  <div style="background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;padding:1.25rem">
+    <div style="font-size:11px;color:var(--ktm);margin-bottom:12px">Fuentes: <span style="color:var(--kg)">Barlow Condensed 700/800</span> · <span style="color:var(--kg)">Barlow 400/600/700</span></div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-lbl">Display / Hero</div><div class="type-spec">Barlow Condensed 800<br>48px / lh 1.0<br>UPPERCASE · +0.02em</div></div>
+      <div style="font-family:sans-serif;font-size:38px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:var(--kt);line-height:1">EN VIVO</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-lbl">Heading 1</div><div class="type-spec">Barlow Condensed 700<br>28px / lh 1.1<br>UPPERCASE</div></div>
+      <div style="font-family:sans-serif;font-size:26px;font-weight:800;text-transform:uppercase;color:var(--kt);line-height:1.1">CANALES DESTACADOS</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-lbl">Heading 2</div><div class="type-spec">Barlow 700<br>20px / lh 1.2</div></div>
+      <div style="font-size:20px;font-weight:700;color:var(--kt)">Categorías populares</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-lbl">Subtitle</div><div class="type-spec">Barlow 600<br>16px / lh 1.3</div></div>
+      <div style="font-size:16px;font-weight:600;color:var(--kt)">xXStreamerXx · 12.4K espectadores</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-lbl">Body</div><div class="type-spec">Barlow 400<br>14px / lh 1.6</div></div>
+      <div style="font-size:14px;color:var(--ktm);max-width:320px;line-height:1.6">Transmisión en directo de FPS, carreras y entretenimiento para todos los públicos.</div>
+    </div>
+    <div class="type-row" style="border:none">
+      <div class="type-meta"><div class="type-lbl">Microtext</div><div class="type-spec">Barlow 700<br>10–11px · +0.08em<br>UPPERCASE</div></div>
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ktm)">EN VIVO · 1.2K VIENDO · GAMING</span>
+    </div>
+  </div>
+</div>
+
+<!-- GRILLAS -->
+<div class="sec" id="s-grillas">
+  <div class="sh">Fase 1 — Fundamentos Visuales</div>
+  <div class="st">Grillas y Espaciado</div>
+  <div class="ss">Sistema de columnas responsive y escala de espaciado de 8 pasos.</div>
+
+  <div class="ch">Sistema de Grillas</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:1.5rem">
+    <div class="grid-doc">
+      <div class="gd-title">Desktop — 12 cols</div>
+      <div class="gd-vis" style="grid-template-columns:repeat(12,1fr)">
+        <div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div>
+        <div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div>
+        <div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div>
+      </div>
+      <div class="gd-spec">Gutter: 16px · Margen: 24px<br>Ancho máx: 1440px</div>
+    </div>
+    <div class="grid-doc">
+      <div class="gd-title">Tablet — 8 cols</div>
+      <div class="gd-vis" style="grid-template-columns:repeat(8,1fr)">
+        <div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div>
+        <div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div>
+      </div>
+      <div class="gd-spec">Gutter: 12px · Margen: 16px<br>Breakpoint: ≤1024px</div>
+    </div>
+    <div class="grid-doc">
+      <div class="gd-title">Mobile — 4 cols</div>
+      <div class="gd-vis" style="grid-template-columns:repeat(4,1fr)">
+        <div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div>
+      </div>
+      <div class="gd-spec">Gutter: 8px · Margen: 12px<br>Breakpoint: ≤768px</div>
+    </div>
+  </div>
+
+  <div class="ch">Escala de Espaciado</div>
+  <div class="grid-doc">
+    <div class="spacing-grid">
+      <div class="spr"><span class="sp-lbl">4px</span><div class="sp-bar"><div class="sp-fill" style="width:4%"></div></div><span class="sp-desc">space-1 · gaps internos mínimos</span></div>
+      <div class="spr"><span class="sp-lbl">8px</span><div class="sp-bar"><div class="sp-fill" style="width:8%"></div></div><span class="sp-desc">space-2 · ícono + texto</span></div>
+      <div class="spr"><span class="sp-lbl">12px</span><div class="sp-bar"><div class="sp-fill" style="width:12%"></div></div><span class="sp-desc">space-3 · padding botones</span></div>
+      <div class="spr"><span class="sp-lbl">16px</span><div class="sp-bar"><div class="sp-fill" style="width:16%"></div></div><span class="sp-desc">space-4 · padding cards</span></div>
+      <div class="spr"><span class="sp-lbl">24px</span><div class="sp-bar"><div class="sp-fill" style="width:24%"></div></div><span class="sp-desc">space-6 · separación secciones</span></div>
+      <div class="spr"><span class="sp-lbl">32px</span><div class="sp-bar"><div class="sp-fill" style="width:32%"></div></div><span class="sp-desc">space-8 · margen de layout</span></div>
+      <div class="spr"><span class="sp-lbl">48px</span><div class="sp-bar"><div class="sp-fill" style="width:48%"></div></div><span class="sp-desc">space-12 · secciones grandes</span></div>
+      <div class="spr"><span class="sp-lbl">64px</span><div class="sp-bar"><div class="sp-fill" style="width:64%"></div></div><span class="sp-desc">space-16 · hero / header</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁTOMOS -->
+<div class="sec" id="s-atomos">
+  <div class="sh">Fase 2 — Inventario UI</div>
+  <div class="st">Átomos</div>
+  <div class="ss">Unidades mínimas no descomponibles — la base constructiva del sistema.</div>
+
+  <div class="ch">Botones</div>
+  <div class="atom-grid">
+    <div class="atom-card"><div class="atom-lbl">btn-primary</div><div class="atom-prev"><button class="btn bp">Seguir</button></div></div>
+    <div class="atom-card"><div class="atom-lbl">btn-secondary</div><div class="atom-prev"><button class="btn bs">Suscribir</button></div></div>
+    <div class="atom-card"><div class="atom-lbl">btn-ghost</div><div class="atom-prev"><button class="btn bg">Compartir</button></div></div>
+    <div class="atom-card"><div class="atom-lbl">btn-danger</div><div class="atom-prev"><button class="btn bd">Banear</button></div></div>
+    <div class="atom-card"><div class="atom-lbl">Tamaños</div><div class="atom-prev" style="flex-direction:column;align-items:flex-start;gap:5px"><button class="btn bp b-sm">sm</button><button class="btn bp">md</button><button class="btn bp b-lg">lg</button></div></div>
+  </div>
+
+  <div class="ch">Badges</div>
+  <div class="atom-grid">
+    <div class="atom-card"><div class="atom-lbl">badge-live</div><div class="atom-prev"><span class="badge bl">EN VIVO</span></div></div>
+    <div class="atom-card"><div class="atom-lbl">badge-success</div><div class="atom-prev"><span class="badge bsuc">Online</span></div></div>
+    <div class="atom-card"><div class="atom-lbl">badge-sub</div><div class="atom-prev"><span class="badge bsub">SUB</span></div></div>
+    <div class="atom-card"><div class="atom-lbl">badge-muted</div><div class="atom-prev"><span class="badge bmut">Offline</span></div></div>
+  </div>
+
+  <div class="ch">Avatares e Inputs</div>
+  <div class="atom-grid">
+    <div class="atom-card"><div class="atom-lbl">avatar sm · online</div><div class="atom-prev"><div class="avatar av-on" style="width:28px;height:28px;background:var(--kg);font-size:10px">XS</div></div></div>
+    <div class="atom-card"><div class="atom-lbl">avatar md</div><div class="atom-prev"><div class="avatar" style="width:36px;height:36px;background:#3dd10f;font-size:12px">MD</div></div></div>
+    <div class="atom-card"><div class="atom-lbl">avatar lg</div><div class="atom-prev"><div class="avatar" style="width:44px;height:44px;background:#1db954;font-size:14px">LG</div></div></div>
+    <div class="atom-card" style="grid-column:span 2"><div class="atom-lbl">input-text</div><div class="atom-prev" style="width:100%"><input class="input-b" placeholder="Buscar canales..." style="font-size:12px"></div></div>
+  </div>
+
+  <div class="ch">Chips e Iconografía</div>
+  <div class="atom-grid">
+    <div class="atom-card"><div class="atom-lbl">chips</div><div class="atom-prev" style="flex-wrap:wrap"><span class="chip"><span class="cdot"></span>Gaming</span><span class="chip">IRL</span><span class="chip">Music</span></div></div>
+    <div class="atom-card" style="grid-column:span 3"><div class="atom-lbl">Íconos — Tabler outline 18–20px</div><div class="atom-prev" style="gap:14px;flex-wrap:wrap"><i class="ti ti-player-play" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-heart" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-bell" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-search" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-settings" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-user" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-share" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-message" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i><i class="ti ti-crown" style="font-size:20px;color:var(--kg)" aria-hidden="true"></i><i class="ti ti-live-photo" style="font-size:20px;color:var(--kr)" aria-hidden="true"></i><i class="ti ti-device-gamepad" style="font-size:20px;color:var(--ktm)" aria-hidden="true"></i></div></div>
+  </div>
+</div>
+
+<!-- MOLÉCULAS -->
+<div class="sec" id="s-moleculas">
+  <div class="sh">Fase 2 — Inventario UI</div>
+  <div class="st">Moléculas</div>
+  <div class="ss">Combinaciones de 2+ átomos con una responsabilidad funcional única.</div>
+
+  <div class="ch">Tarjetas de Stream</div>
+  <div class="mol-grid">
+    <div class="sc">
+      <div class="sc-thumb"><div class="sc-tbg"><svg width="32" height="32" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bl">VIVO</span></div><div class="sc-vw"><span class="vdot"></span>14.2K</div></div>
+      <div class="sc-info"><div class="avatar" style="width:26px;height:26px;background:var(--kg);font-size:9px;flex-shrink:0">XS</div><div class="sc-meta"><div class="sc-title">Ranked Solo Queue grind</div><div class="sc-ch">xXStreamerXx</div><div class="sc-cat"><span class="chip" style="font-size:10px;padding:2px 7px"><span class="cdot"></span>FPS</span></div></div></div>
+    </div>
+    <div class="sc">
+      <div class="sc-thumb" style="background:#0d0d1a"><div class="sc-tbg" style="opacity:.2"><svg width="32" height="32" fill="#a855f7" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bmut">VOD</span></div><div class="sc-vw"><i class="ti ti-eye" style="font-size:10px"></i>87K</div></div>
+      <div class="sc-info"><div class="avatar" style="width:26px;height:26px;background:var(--kbl);font-size:9px;flex-shrink:0;color:#fff">KA</div><div class="sc-meta"><div class="sc-title">React + Supabase full-stack</div><div class="sc-ch">KickAcademy</div><div class="sc-cat"><span class="chip" style="font-size:10px;padding:2px 7px">Dev</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="ch">Barra de Búsqueda</div>
+  <div class="search-mol">
+    <div class="search-row">
+      <div class="search-iw"><i class="ti ti-search" style="font-size:14px;color:var(--ktd)" aria-hidden="true"></i><input class="search-inp" placeholder="Buscar canales, juegos, streamers..."></div>
+      <button class="btn bp" style="font-size:12px;padding:7px 14px">Buscar</button>
+    </div>
+  </div>
+
+  <div class="ch">Filas de Canal</div>
+  <div class="ch-row-mol"><div class="avatar av-on" style="width:32px;height:32px;background:var(--kg);font-size:10px">AC</div><div class="ch-meta"><div class="ch-name-t">AceGamer_AR</div><div class="ch-cat-t">Fortnite · 8.1K espectadores</div></div><span class="badge bl">LIVE</span><button class="btn bg b-sm">Seguir</button></div>
+  <div class="ch-row-mol"><div class="avatar" style="width:32px;height:32px;background:var(--kbl);font-size:10px;color:#fff">RL</div><div class="ch-meta"><div class="ch-name-t">RealLifeVibes</div><div class="ch-cat-t">IRL / Vlogs</div></div><span class="badge bmut">Offline</span><button class="btn bg b-sm">Seguir</button></div>
+
+  <div class="ch">Mensaje de Chat</div>
+  <div style="background:var(--ks1);border:1px solid var(--kborder);border-radius:10px;padding:12px 14px">
+    <div class="cmsg"><div class="cmsg-h"><span class="badge bsub" style="font-size:9px;padding:2px 5px">SUB</span><span class="cmsg-u">pablostreamer99</span><span class="cmsg-t">14:22</span></div><div class="cmsg-b">que jugada hermano, no puede ser real</div></div>
+    <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u cmsg-mod">Mod_Javier</span><span class="badge bmut" style="font-size:9px;padding:2px 5px">MOD</span></div><div class="cmsg-b">Bienvenidos todos al stream, respeten las reglas</div></div>
+  </div>
+</div>
+
+<!-- ORGANISMOS -->
+<div class="sec" id="s-organismos">
+  <div class="sh">Fase 2 — Inventario UI</div>
+  <div class="st">Organismos</div>
+  <div class="ss">Secciones completas de la interfaz compuestas de moléculas y átomos.</div>
+
+  <div class="ch">Barra de Navegación Principal</div>
+  <div class="nav-org">
+    <div class="nav-top">
+      <div class="logo-mk" style="width:26px;height:26px"><svg viewBox="0 0 24 24" fill="#000" width="16" height="16"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div>
+      <span style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--kt)">Kick</span>
+      <div class="nav-sinp"><i class="ti ti-search" style="font-size:13px;color:var(--ktd)" aria-hidden="true"></i><input class="nav-field" placeholder="Buscar..."></div>
+      <div class="nav-sp"></div>
+      <div class="nav-lnks"><span class="nav-lnk act">Inicio</span><span class="nav-lnk">Categorías</span><span class="nav-lnk">En vivo</span></div>
+      <div style="display:flex;gap:6px;margin-left:10px"><button class="btn bg b-sm">Iniciar sesión</button><button class="btn bp b-sm">Registrarse</button></div>
+    </div>
+  </div>
+
+  <div class="ch">Reproductor de Stream</div>
+  <div class="player-org">
+    <div class="pl-screen">
+      <div class="pl-content"><svg width="44" height="44" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg><span style="font-size:10px;color:var(--kg);letter-spacing:.1em;text-transform:uppercase">Reproducción en vivo</span></div>
+      <div class="pl-ctrl"><button class="cb" aria-label="play"><i class="ti ti-player-play" style="font-size:15px"></i></button><div class="prog"><div class="prog-f"></div></div><span style="font-size:10px;color:rgba(255,255,255,.6)">EN VIVO</span><button class="cb" aria-label="volumen"><i class="ti ti-volume" style="font-size:14px"></i></button><button class="cb" aria-label="pantalla completa"><i class="ti ti-maximize" style="font-size:14px"></i></button></div>
+    </div>
+    <div class="pl-info">
+      <div class="avatar av-on" style="width:40px;height:40px;background:var(--kg);font-size:13px;flex-shrink:0">XS</div>
+      <div class="pl-meta"><div class="pl-title">Ranked Solo Queue — Día 1 del grind hacia Predator</div><div class="pl-ch">xXStreamerXx · <span style="color:var(--kr)">● 14,281 viendo</span></div><div class="pl-act"><button class="btn bp b-sm">Seguir</button><button class="btn bs b-sm"><i class="ti ti-crown" style="font-size:11px" aria-hidden="true"></i> Suscribir</button><button class="btn bg b-sm"><i class="ti ti-share" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+      <div style="text-align:right;flex-shrink:0"><span class="badge bl" style="display:block;margin-bottom:4px">EN VIVO</span><div style="font-size:10px;color:var(--ktm)">FPS / Shooter</div></div>
+    </div>
+  </div>
+
+  <div class="ch">Panel de Chat en Vivo</div>
+  <div class="chat-org">
+    <div class="chat-head"><span class="chat-tt"><i class="ti ti-message" style="font-size:13px;vertical-align:-2px;margin-right:5px" aria-hidden="true"></i>Chat en vivo</span><span class="chat-cnt">3,241 usuarios</span></div>
+    <div class="chat-feed">
+      <div class="cmsg"><div class="cmsg-h"><span class="badge bsub" style="font-size:9px;padding:2px 5px">SUB</span><span class="cmsg-u">pablo99</span><span class="cmsg-t">14:31</span></div><div class="cmsg-b">que partidazo loco no puede ser real</div></div>
+      <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u cmsg-mod">Mod_Javier</span><span class="badge bmut" style="font-size:9px">MOD</span></div><div class="cmsg-b">recuerden las reglas del chat, respeto</div></div>
+      <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u" style="color:var(--kg)">argentinaGG</span></div><div class="cmsg-b">GOAT GOAT GOAT</div></div>
+      <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u" style="color:var(--ktm)">user_777</span></div><div class="cmsg-b">primera vez en el canal, buenas vibras!</div></div>
+    </div>
+    <div class="chat-in"><input class="chat-field" placeholder="Enviar mensaje..."><button class="btn bp b-sm">Enviar</button></div>
+  </div>
+</div>
+
+<!-- ESTADOS -->
+<div class="sec" id="s-estados">
+  <div class="sh">Fase 3 — Documentación Técnica</div>
+  <div class="st">Estados de Componentes</div>
+  <div class="ss">Default · Hover · Focus · Disabled — para cada componente principal del inventario.</div>
+
+  <div class="ch">Botón Primario</div>
+  <div class="comp-row">
+    <div class="state-card"><div class="state-lbl">Default</div><button class="btn bp">Seguir</button><div class="spec-box"><div class="sl"><span class="sk">bg</span><span class="sv">#53FC18</span></div><div class="sl"><span class="sk">color</span><span class="sv">#000000</span></div><div class="sl"><span class="sk">radius</span><span class="sv">6px</span></div></div><div class="state-nm">Default</div></div>
+    <div class="state-card"><div class="state-lbl">Hover</div><button class="btn bp" style="background:#3dd10f">Seguir</button><div class="spec-box"><div class="sl"><span class="sk">bg</span><span class="sv">#3DD10F</span></div><div class="sl"><span class="sk">trans.</span><span class="sv">0.15s</span></div></div><div class="state-nm">Hover</div></div>
+    <div class="state-card"><div class="state-lbl">Focus</div><button class="btn bp" style="outline:2px solid #53FC18;outline-offset:3px">Seguir</button><div class="spec-box"><div class="sl"><span class="sk">outline</span><span class="sv">2px #53FC18</span></div><div class="sl"><span class="sk">offset</span><span class="sv">3px</span></div></div><div class="state-nm">Focus</div></div>
+    <div class="state-card"><div class="state-lbl">Disabled</div><button class="btn" style="background:#2a3a20;color:#4a6a30;cursor:not-allowed;opacity:.6;padding:8px 16px;border-radius:6px;border:none;font-size:13px;font-weight:700">Seguir</button><div class="spec-box"><div class="sl"><span class="sk">opacity</span><span class="sv">0.6</span></div><div class="sl"><span class="sk">cursor</span><span class="sv">not-allowed</span></div></div><div class="state-nm">Disabled</div></div>
+  </div>
+
+  <div class="ch">Botón Secundario</div>
+  <div class="comp-row">
+    <div class="state-card"><div class="state-lbl">Default</div><button class="btn bs">Suscribir</button><div class="spec-box"><div class="sl"><span class="sk">bg</span><span class="sv">#2e2e2e</span></div><div class="sl"><span class="sk">border</span><span class="sv">rgba(fff,.08)</span></div></div><div class="state-nm">Default</div></div>
+    <div class="state-card"><div class="state-lbl">Hover</div><button class="btn" style="background:#3a3a3a;color:var(--kt);border:1px solid rgba(255,255,255,.16);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700">Suscribir</button><div class="spec-box"><div class="sl"><span class="sk">bg</span><span class="sv">#3a3a3a</span></div><div class="sl"><span class="sk">border</span><span class="sv">rgba(.16)</span></div></div><div class="state-nm">Hover</div></div>
+    <div class="state-card"><div class="state-lbl">Focus</div><button class="btn bs" style="outline:2px solid #53FC18;outline-offset:3px">Suscribir</button><div class="spec-box"><div class="sl"><span class="sk">outline</span><span class="sv">2px #53FC18</span></div></div><div class="state-nm">Focus</div></div>
+    <div class="state-card"><div class="state-lbl">Disabled</div><button class="btn bs" style="opacity:.4;cursor:not-allowed">Suscribir</button><div class="spec-box"><div class="sl"><span class="sk">opacity</span><span class="sv">0.4</span></div><div class="sl"><span class="sk">pointer</span><span class="sv">none</span></div></div><div class="state-nm">Disabled</div></div>
+  </div>
+
+  <div class="ch">Botón Ghost</div>
+  <div class="comp-row">
+    <div class="state-card"><div class="state-lbl">Default</div><button class="btn bg">Compartir</button><div class="spec-box"><div class="sl"><span class="sk">bg</span><span class="sv">transparent</span></div><div class="sl"><span class="sk">color</span><span class="sv">#888</span></div></div><div class="state-nm">Default</div></div>
+    <div class="state-card"><div class="state-lbl">Hover</div><button class="btn" style="background:var(--ks2);color:var(--kt);border:1px solid var(--kborder);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700">Compartir</button><div class="spec-box"><div class="sl"><span class="sk">bg</span><span class="sv">#242424</span></div><div class="sl"><span class="sk">color</span><span class="sv">#f0f0f0</span></div></div><div class="state-nm">Hover</div></div>
+    <div class="state-card"><div class="state-lbl">Focus</div><button class="btn bg" style="outline:2px solid #53FC18;outline-offset:3px;color:var(--kt)">Compartir</button><div class="spec-box"><div class="sl"><span class="sk">outline</span><span class="sv">2px #53FC18</span></div></div><div class="state-nm">Focus</div></div>
+    <div class="state-card"><div class="state-lbl">Disabled</div><button class="btn bg" style="opacity:.35;cursor:not-allowed">Compartir</button><div class="spec-box"><div class="sl"><span class="sk">opacity</span><span class="sv">0.35</span></div></div><div class="state-nm">Disabled</div></div>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="ch">Input de Texto</div>
+  <div class="comp-row" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+    <div class="state-card"><div class="state-lbl">Default</div><input class="input-b" placeholder="Buscar..."><div class="spec-box"><div class="sl"><span class="sk">border</span><span class="sv">rgba(.08)</span></div><div class="sl"><span class="sk">height</span><span class="sv">38px</span></div></div><div class="state-nm">Default</div></div>
+    <div class="state-card"><div class="state-lbl">Hover</div><input class="input-b" placeholder="Buscar..." style="border-color:rgba(255,255,255,.16)"><div class="spec-box"><div class="sl"><span class="sk">border</span><span class="sv">rgba(.16)</span></div></div><div class="state-nm">Hover</div></div>
+    <div class="state-card"><div class="state-lbl">Focus</div><input class="input-b inp-focus" value="FPS Gaming"><div class="spec-box"><div class="sl"><span class="sk">border</span><span class="sv">#53FC18</span></div><div class="sl"><span class="sk">ring</span><span class="sv">3px rgba(.15)</span></div></div><div class="state-nm">Focus</div></div>
+    <div class="state-card"><div class="state-lbl">Error</div><input class="input-b inp-err" value="usuario@"><div class="spec-box"><div class="sl"><span class="sk">border</span><span class="sv">#FF4444</span></div></div><div class="state-nm">Error</div></div>
+    <div class="state-card"><div class="state-lbl">Disabled</div><input class="input-b inp-dis" placeholder="No disponible" disabled><div class="spec-box"><div class="sl"><span class="sk">opacity</span><span class="sv">0.45</span></div></div><div class="state-nm">Disabled</div></div>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="ch">Tarjeta de Stream</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:1.5rem">
+    <div>
+      <div class="state-lbl" style="margin-bottom:6px">Default</div>
+      <div class="sc"><div class="sc-thumb"><div class="sc-tbg"><svg width="28" height="28" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bl" style="font-size:9px">VIVO</span></div><div class="sc-vw"><span class="vdot"></span>14K</div></div><div class="sc-info"><div class="avatar" style="width:24px;height:24px;background:var(--kg);font-size:9px;flex-shrink:0">XS</div><div class="sc-meta"><div class="sc-title">Ranked Solo Queue</div><div class="sc-ch">xXStreamer</div></div></div></div>
+    </div>
+    <div>
+      <div class="state-lbl" style="margin-bottom:6px">Hover</div>
+      <div class="sc" style="border-color:var(--kborder-g)"><div class="sc-thumb"><div class="sc-tbg" style="opacity:.2"><svg width="28" height="28" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bl" style="font-size:9px">VIVO</span></div><div class="sc-vw"><span class="vdot"></span>14K</div></div><div class="sc-info"><div class="avatar" style="width:24px;height:24px;background:var(--kg);font-size:9px;flex-shrink:0">XS</div><div class="sc-meta"><div class="sc-title" style="color:var(--kg)">Ranked Solo Queue</div><div class="sc-ch">xXStreamer</div></div></div></div>
+      <div class="spec-box" style="margin-top:5px"><div class="sl"><span class="sk">border</span><span class="sv">kborder-green</span></div></div>
+    </div>
+    <div>
+      <div class="state-lbl" style="margin-bottom:6px">Selected</div>
+      <div class="sc" style="border:2px solid var(--kg)"><div class="sc-thumb"><div class="sc-tbg"><svg width="28" height="28" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bl" style="font-size:9px">VIVO</span></div></div><div class="sc-info"><div class="avatar" style="width:24px;height:24px;background:var(--kg);font-size:9px;flex-shrink:0">XS</div><div class="sc-meta"><div class="sc-title">Ranked Solo Queue</div><div class="sc-ch">xXStreamer</div></div></div></div>
+      <div class="spec-box" style="margin-top:5px"><div class="sl"><span class="sk">border</span><span class="sv">2px #53FC18</span></div></div>
+    </div>
+    <div>
+      <div class="state-lbl" style="margin-bottom:6px">Disabled</div>
+      <div class="sc" style="opacity:.4"><div class="sc-thumb"><div class="sc-tbg" style="opacity:.1"><svg width="28" height="28" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div></div><div class="sc-info"><div class="avatar" style="width:24px;height:24px;background:var(--ks3);font-size:9px;flex-shrink:0;color:var(--ktm)">--</div><div class="sc-meta"><div class="sc-title" style="color:var(--ktm)">No disponible</div></div></div></div>
+      <div class="spec-box" style="margin-top:5px"><div class="sl"><span class="sk">opacity</span><span class="sv">0.4</span></div></div>
+    </div>
+  </div>
+
+  <div class="ch">Avatares</div>
+  <div class="comp-row">
+    <div class="state-card"><div class="state-lbl">Default sm</div><div class="avatar" style="width:28px;height:28px;background:var(--kg);font-size:10px">AC</div><div class="spec-box"><div class="sl"><span class="sk">size</span><span class="sv">28px</span></div></div><div class="state-nm">Default</div></div>
+    <div class="state-card"><div class="state-lbl">Online md</div><div class="avatar av-on" style="width:36px;height:36px;background:#3dd10f;font-size:12px">KK</div><div class="spec-box"><div class="sl"><span class="sk">outline</span><span class="sv">2px #53FC18</span></div></div><div class="state-nm">Online</div></div>
+    <div class="state-card"><div class="state-lbl">Focus</div><div class="avatar" style="width:36px;height:36px;background:var(--kg);font-size:12px;outline:2px solid #53FC18;outline-offset:3px">MX</div><div class="spec-box"><div class="sl"><span class="sk">outline</span><span class="sv">focus ring</span></div></div><div class="state-nm">Focus</div></div>
+    <div class="state-card"><div class="state-lbl">Disabled</div><div class="avatar" style="width:36px;height:36px;background:var(--ks3);font-size:12px;opacity:.4;color:var(--ktm)">--</div><div class="spec-box"><div class="sl"><span class="sk">opacity</span><span class="sv">0.4</span></div></div><div class="state-nm">Disabled</div></div>
+  </div>
+</div>
+
+<!-- PANTALLA HOME -->
+<div class="sec" id="s-home">
+  <div class="sh">Fase 4 — Pantalla 1</div>
+  <div class="st">Homepage — Explorar</div>
+  <div class="ss">Página principal con sidebar de canales, grid de streams en vivo y categorías populares.</div>
+  <div class="screen">
+    <div class="snav">
+      <div class="logo-mk" style="width:26px;height:26px"><svg viewBox="0 0 24 24" fill="#000" width="15" height="15"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div>
+      <span style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--kt)">Kick</span>
+      <div class="snav-si"><i class="ti ti-search" style="font-size:12px;color:var(--ktd)" aria-hidden="true"></i><input class="snav-if" placeholder="Buscar canales, juegos..."></div>
+      <div class="snav-lks"><span class="snav-lk act">Inicio</span><span class="snav-lk">Categorías</span><span class="snav-lk">En vivo</span><span class="snav-lk">Clips</span></div>
+      <div class="snav-sp"></div>
+      <div style="display:flex;gap:5px"><button class="btn bg b-sm">Iniciar sesión</button><button class="btn bp b-sm">Registrarse</button></div>
+    </div>
+    <div class="page-lay">
+      <div class="sidebar">
+        <div class="sb-sec">Menú</div>
+        <div class="sb-it act"><i class="ti ti-home sb-ic" aria-hidden="true"></i><span class="sb-tx">Inicio</span></div>
+        <div class="sb-it"><i class="ti ti-compass sb-ic" aria-hidden="true"></i><span class="sb-tx">Explorar</span></div>
+        <div class="sb-it"><i class="ti ti-device-gamepad sb-ic" aria-hidden="true"></i><span class="sb-tx">Categorías</span></div>
+        <div class="sb-it"><i class="ti ti-star sb-ic" aria-hidden="true"></i><span class="sb-tx">Destacados</span></div>
+        <div class="sb-sec" style="margin-top:8px">Siguiendo</div>
+        <div class="sb-cr"><div class="sb-av av-on" style="background:var(--kg);color:#000">XS</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--kt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">xXStreamerXx</div><div style="font-size:10px;color:var(--kr)">En vivo · FPS</div></div><span class="sb-dot"></span></div>
+        <div class="sb-cr"><div class="sb-av" style="background:var(--kbl);color:#fff">KA</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--kt)">KickAcademy</div><div style="font-size:10px;color:var(--ktm)">Offline</div></div></div>
+        <div class="sb-cr"><div class="sb-av av-on" style="background:#a855f7;color:#fff">RL</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--kt)">RealLifeAR</div><div style="font-size:10px;color:var(--kr)">En vivo · IRL</div></div><span class="sb-dot"></span></div>
+        <div class="sb-cr"><div class="sb-av" style="background:var(--ka);color:#000">MC</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--kt)">MuzicoClub</div><div style="font-size:10px;color:var(--ktm)">Offline</div></div></div>
+        <div class="sb-cr"><div class="sb-av av-on" style="background:#ec4899;color:#fff">NG</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--kt)">NightGaming</div><div style="font-size:10px;color:var(--kr)">En vivo</div></div><span class="sb-dot"></span></div>
+      </div>
+      <div class="page-main">
+        <div class="hero-strip">
+          <div class="logo-mk" style="width:40px;height:40px;flex-shrink:0"><svg viewBox="0 0 24 24" fill="#000" width="24" height="24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div>
+          <div><div class="hero-ht">Kick — Plataforma de streaming</div><div class="hero-hb">Explorá canales en vivo ahora</div><div class="hero-hm">3,241 canales · 890K espectadores en línea</div></div>
+          <button class="btn bp b-sm" style="margin-left:auto;flex-shrink:0">Ver todos</button>
+        </div>
+        <div class="cat-bar"><span class="cat-pill act">Todos</span><span class="cat-pill">FPS / Shooter</span><span class="cat-pill">IRL</span><span class="cat-pill">Música</span><span class="cat-pill">MOBA</span><span class="cat-pill">Battle Royale</span><span class="cat-pill">Just Chatting</span></div>
+        <div class="sec-row"><span class="sec-rt"><i class="ti ti-live-photo" style="font-size:13px;vertical-align:-2px;margin-right:5px;color:var(--kr)" aria-hidden="true"></i>Canales en vivo</span><span class="see-all">Ver todo</span></div>
+        <div class="stream-grid">
+          <div class="sc"><div class="sc-thumb"><div class="sc-tbg"><svg width="28" height="28" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bl" style="font-size:9px">VIVO</span></div><div class="sc-vw"><span class="vdot"></span>14.2K</div></div><div class="sc-info"><div class="avatar" style="width:24px;height:24px;background:var(--kg);font-size:9px;flex-shrink:0">XS</div><div class="sc-meta"><div class="sc-title">Ranked Solo Queue</div><div class="sc-ch">xXStreamerXx</div><div class="sc-cat">FPS / Shooter</div></div></div></div>
+          <div class="sc"><div class="sc-thumb" style="background:#0d0d1a"><div class="sc-tbg" style="opacity:.2"><svg width="28" height="28" fill="#a855f7" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bl" style="font-size:9px">VIVO</span></div><div class="sc-vw"><span class="vdot"></span>8.7K</div></div><div class="sc-info"><div class="avatar" style="width:24px;height:24px;background:#a855f7;font-size:9px;flex-shrink:0;color:#fff">RL</div><div class="sc-meta"><div class="sc-title">Buenos Aires de noche</div><div class="sc-ch">RealLifeAR</div><div class="sc-cat">IRL</div></div></div></div>
+          <div class="sc"><div class="sc-thumb" style="background:#0a0a1a"><div class="sc-tbg" style="opacity:.2"><svg width="28" height="28" fill="#3b82f6" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div><div class="sc-live"><span class="badge bl" style="font-size:9px">VIVO</span></div><div class="sc-vw"><span class="vdot"></span>5.1K</div></div><div class="sc-info"><div class="avatar" style="width:24px;height:24px;background:var(--kbl);font-size:9px;flex-shrink:0;color:#fff">NG</div><div class="sc-meta"><div class="sc-title">Torneo Valorant AR</div><div class="sc-ch">NightGaming</div><div class="sc-cat">FPS / Shooter</div></div></div></div>
+        </div>
+        <div class="sec-row" style="margin-top:4px"><span class="sec-rt">Categorías populares</span><span class="see-all">Ver todo</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:7px;padding:7px 13px 14px">
+          <div style="background:var(--ks1);border:1px solid var(--kborder);border-radius:7px;padding:9px;text-align:center;cursor:pointer"><div style="font-size:18px;margin-bottom:3px"><i class="ti ti-device-gamepad" style="color:var(--kg)" aria-hidden="true"></i></div><div style="font-size:11px;font-weight:700;color:var(--kt)">FPS</div><div style="font-size:10px;color:var(--ktm)">412 canales</div></div>
+          <div style="background:var(--ks1);border:1px solid var(--kborder);border-radius:7px;padding:9px;text-align:center;cursor:pointer"><div style="font-size:18px;margin-bottom:3px"><i class="ti ti-map-pin" style="color:#a855f7" aria-hidden="true"></i></div><div style="font-size:11px;font-weight:700;color:var(--kt)">IRL</div><div style="font-size:10px;color:var(--ktm)">198 canales</div></div>
+          <div style="background:var(--ks1);border:1px solid var(--kborder);border-radius:7px;padding:9px;text-align:center;cursor:pointer"><div style="font-size:18px;margin-bottom:3px"><i class="ti ti-music" style="color:var(--ka)" aria-hidden="true"></i></div><div style="font-size:11px;font-weight:700;color:var(--kt)">Música</div><div style="font-size:10px;color:var(--ktm)">87 canales</div></div>
+          <div style="background:var(--ks1);border:1px solid var(--kborder);border-radius:7px;padding:9px;text-align:center;cursor:pointer"><div style="font-size:18px;margin-bottom:3px"><i class="ti ti-sword" style="color:var(--kr)" aria-hidden="true"></i></div><div style="font-size:11px;font-weight:700;color:var(--kt)">MOBA</div><div style="font-size:10px;color:var(--ktm)">156 canales</div></div>
+          <div style="background:var(--ks1);border:1px solid var(--kborder);border-radius:7px;padding:9px;text-align:center;cursor:pointer"><div style="font-size:18px;margin-bottom:3px"><i class="ti ti-messages" style="color:var(--kbl)" aria-hidden="true"></i></div><div style="font-size:11px;font-weight:700;color:var(--kt)">Just Chat</div><div style="font-size:10px;color:var(--ktm)">221 canales</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANTALLA CANAL -->
+<div class="sec" id="s-canal">
+  <div class="sh">Fase 4 — Pantalla 2</div>
+  <div class="st">Página de Canal + Player</div>
+  <div class="ss">Canal activo con reproductor, chat en vivo, info del streamer y suscripciones.</div>
+  <div class="screen">
+    <div class="snav">
+      <div class="logo-mk" style="width:26px;height:26px"><svg viewBox="0 0 24 24" fill="#000" width="15" height="15"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg></div>
+      <span style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--kt)">Kick</span>
+      <div class="snav-si"><i class="ti ti-search" style="font-size:12px;color:var(--ktd)" aria-hidden="true"></i><input class="snav-if" placeholder="Buscar..."></div>
+      <div class="snav-lks"><span class="snav-lk">Inicio</span><span class="snav-lk">Categorías</span><span class="snav-lk act">En vivo</span></div>
+      <div class="snav-sp"></div>
+      <div style="display:flex;gap:5px"><button class="btn bg b-sm">Iniciar sesión</button><button class="btn bp b-sm">Registrarse</button></div>
+    </div>
+    <div class="page-lay">
+      <div class="pl-wrap">
+        <div class="pl-screen" style="aspect-ratio:16/9;background:#000;position:relative;display:flex;align-items:center;justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px;opacity:.18"><svg width="44" height="44" fill="#53FC18" viewBox="0 0 24 24"><path d="M5 4h3v7l5-7h4L11 12l6 8h-4l-5-7v7H5V4z"/></svg><span style="font-size:10px;color:var(--kg);letter-spacing:.1em;text-transform:uppercase">En transmisión</span></div>
+          <div class="pl-ctrl"><button class="cb" aria-label="play"><i class="ti ti-player-play" style="font-size:14px"></i></button><div class="prog"><div class="prog-f"></div></div><span style="font-size:10px;color:rgba(255,255,255,.6)">EN VIVO</span><button class="cb" aria-label="volumen"><i class="ti ti-volume" style="font-size:13px"></i></button><button class="cb" aria-label="config"><i class="ti ti-settings" style="font-size:13px"></i></button><button class="cb" aria-label="fullscreen"><i class="ti ti-maximize" style="font-size:13px"></i></button></div>
+        </div>
+        <div class="pl-info">
+          <div class="avatar av-on" style="width:38px;height:38px;background:var(--kg);font-size:12px;flex-shrink:0">XS</div>
+          <div class="pl-meta"><div class="pl-title">Ranked Solo Queue — Día 1 del grind hacia Predator</div><div class="pl-ch">xXStreamerXx · <span style="color:var(--kr)">● 14,281 viendo</span> · FPS / Shooter</div><div class="pl-act"><button class="btn bp b-sm">Seguir</button><button class="btn bs b-sm"><i class="ti ti-crown" style="font-size:11px" aria-hidden="true"></i> Suscribir</button><button class="btn bg b-sm"><i class="ti ti-heart" style="font-size:11px" aria-hidden="true"></i></button><button class="btn bg b-sm"><i class="ti ti-share" style="font-size:11px" aria-hidden="true"></i></button><button class="btn bg b-sm"><i class="ti ti-dots" style="font-size:11px" aria-hidden="true"></i></button></div></div>
+          <div style="text-align:right;flex-shrink:0"><span class="badge bl" style="display:block;margin-bottom:4px">EN VIVO</span><div style="font-size:10px;color:var(--ktm)">hace 3h 42m</div></div>
+        </div>
+        <div class="tabs-bar"><span class="tab act">Sobre el canal</span><span class="tab">Clips</span><span class="tab">Suscripciones</span><span class="tab">VODs</span></div>
+        <div class="ch-page-header">
+          <div class="ch-cover" style="width:60px;height:60px;background:var(--kg);font-size:20px;color:#000">XS</div>
+          <div style="flex:1">
+            <div class="ch-nm">xXStreamerXx</div>
+            <div class="ch-ct">FPS / Shooter · Argentina</div>
+            <div class="ch-stats">
+              <div class="stat"><span class="stat-v">84.2K</span><span class="stat-l">Seguidores</span></div>
+              <div class="stat"><span class="stat-v">1,240</span><span class="stat-l">Suscriptores</span></div>
+              <div class="stat"><span class="stat-v" style="color:var(--kr)">14.2K</span><span class="stat-l">Viendo</span></div>
+              <div class="stat"><span class="stat-v">312</span><span class="stat-l">Streams</span></div>
+            </div>
+            <div class="ch-act"><button class="btn bp b-sm">Seguir</button><button class="btn bs b-sm"><i class="ti ti-crown" style="font-size:11px" aria-hidden="true"></i> Suscribir</button><button class="btn bg b-sm"><i class="ti ti-bell" style="font-size:11px" aria-hidden="true"></i></button><button class="btn bg b-sm"><i class="ti ti-share" style="font-size:11px" aria-hidden="true"></i></button></div>
+          </div>
+          <div style="text-align:right;flex-shrink:0"><span class="badge bl" style="display:block;margin-bottom:4px">EN VIVO</span><div style="font-size:10px;color:var(--ktm)">hace 3h 42m</div></div>
+        </div>
+        <div class="about-sec">
+          <div class="about-card">
+            <div class="about-card-t">Info del canal</div>
+            <div class="about-row"><span class="ak">Categoría</span><span class="av">FPS / Shooter</span></div>
+            <div class="about-row"><span class="ak">País</span><span class="av">Argentina</span></div>
+            <div class="about-row"><span class="ak">Idioma</span><span class="av">Español</span></div>
+            <div class="about-row"><span class="ak">Activo desde</span><span class="av">Mar 2022</span></div>
+            <div class="about-row"><span class="ak">Email</span><span class="av" style="color:var(--kbl)">contacto@xs.gg</span></div>
+          </div>
+          <div class="about-card">
+            <div class="about-card-t">Tiers de suscripción</div>
+            <div class="tier-grid">
+              <div class="tier"><div class="tier-p">$2.99</div><div class="tier-n">Tier 1</div><div class="tier-f">Emotes · Sin ads</div></div>
+              <div class="tier feat"><div style="font-size:8px;font-weight:700;color:var(--kg);text-transform:uppercase;margin-bottom:2px">Popular</div><div class="tier-p">$4.99</div><div class="tier-n">Tier 2</div><div class="tier-f">+Emotes · Badge</div></div>
+              <div class="tier"><div class="tier-p">$9.99</div><div class="tier-n">Tier 3</div><div class="tier-f">VIP · Discord</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-panel">
+        <div class="cp-head"><span class="cp-title"><i class="ti ti-message" style="font-size:12px;vertical-align:-2px;margin-right:5px" aria-hidden="true"></i>Chat en vivo</span><span class="cp-cnt">3,241</span></div>
+        <div class="cp-feed">
+          <div class="cmsg"><div class="cmsg-h"><span class="badge bsub" style="font-size:9px;padding:2px 5px">SUB</span><span class="cmsg-u">pablo99</span><span class="cmsg-t">14:31</span></div><div class="cmsg-b">que jugada, no puede ser real</div></div>
+          <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u cmsg-mod">Mod_Javier</span><span class="badge bmut" style="font-size:9px">MOD</span></div><div class="cmsg-b">respeto para todos en el chat</div></div>
+          <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u" style="color:var(--ka)">argGG</span></div><div class="cmsg-b">GOAT GOAT GOAT</div></div>
+          <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u" style="color:var(--ktm)">user_777</span></div><div class="cmsg-b">primera vez en el canal!</div></div>
+          <div class="cmsg"><div class="cmsg-h"><span class="badge bsub" style="font-size:9px;padding:2px 5px">SUB</span><span class="cmsg-u">lucho_fps</span></div><div class="cmsg-b">ese 1v4 fue una locura jefe</div></div>
+          <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u" style="color:var(--ktm)">viewer_234</span></div><div class="cmsg-b">que headset usa?</div></div>
+          <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u" style="color:#a855f7">VIPmember</span></div><div class="cmsg-b">siempre calidad total</div></div>
+          <div class="cmsg"><div class="cmsg-h"><span class="cmsg-u cmsg-mod">Mod_Javier</span></div><div class="cmsg-b">no spoilers del resultado pls</div></div>
+        </div>
+        <div class="cp-in"><input class="cp-f" placeholder="Enviar mensaje..."><button class="btn bp b-sm">Enviar</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function sw(id){
+  const ids=['tokens','tipo','grillas','atomos','moleculas','organismos','estados','home','canal'];
+  document.querySelectorAll('.nt').forEach((t,i)=>t.classList.toggle('on',ids[i]===id));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id==='s-'+id));
+}
+</script>
